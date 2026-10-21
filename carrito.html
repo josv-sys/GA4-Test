@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Opeth Rules · Carrito</title>
+  <meta name="description" content="Tu carrito en Opeth Rules.">
+  <script src="js/analytics.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body data-page="carrito">
+  <div id="site-nav"></div>
+
+  <main class="container py-5">
+    <h1 class="display-6 mb-4">Tu carrito</h1>
+    <div class="row g-4" id="cart-root"></div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const root = document.getElementById('cart-root');
+
+    function render() {
+      const lines = OR.cart.detailed();
+      if (!lines.length) {
+        root.innerHTML = `<div class="col-12"><div class="card-or p-5 text-center">
+          <i class="bi bi-bag fs-1 text-or"></i>
+          <p class="mt-3 mb-4 text-muted-or">Tu carrito está tan vacío como un bosque en invierno.</p>
+          <a href="tienda.html" class="btn btn-or">Explorar la discografía</a></div></div>`;
+        return;
+      }
+      const t = OR.cart.totals();
+      root.innerHTML = `
+        <div class="col-lg-8">
+          <div class="card-or">
+            ${lines.map((l, i) => `
+              <div class="d-flex gap-3 p-3 align-items-center ${i ? 'border-top border-or' : ''}">
+                <a href="album.html?id=${l.id}" style="width: 84px; flex-shrink: 0;">${OR.coverHTML(l.album)}</a>
+                <div class="flex-grow-1">
+                  <div class="fw-semibold">${OR.esc(l.album.title)}</div>
+                  <div class="small text-muted-or">${l.variant} · ${OR.money(l.unit)} c/u</div>
+                  <div class="input-group input-group-sm mt-2" style="width: 7.5rem;">
+                    <button class="btn btn-outline-or qty" data-i="${i}" data-d="-1" aria-label="Menos">−</button>
+                    <span class="form-control text-center">${l.qty}</span>
+                    <button class="btn btn-outline-or qty" data-i="${i}" data-d="1" aria-label="Más">+</button>
+                  </div>
+                </div>
+                <div class="text-end">
+                  <div class="price">${OR.money(l.total)}</div>
+                  <button class="btn btn-sm btn-link link-or p-0 mt-2 remove" data-i="${i}"><i class="bi bi-trash me-1"></i>Quitar</button>
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card-or p-4">
+            <h2 class="h5 mb-3">Resumen</h2>
+            <form id="coupon-form" class="input-group input-group-sm mb-3">
+              <input class="form-control text-uppercase" id="coupon" placeholder="Cupón (ej. OPETH10)" value="${t.coupon || ''}" aria-label="Cupón">
+              <button class="btn btn-outline-or" type="submit">Aplicar</button>
+            </form>
+            <dl class="row small mb-0">
+              <dt class="col-7 fw-normal text-muted-or">Subtotal</dt><dd class="col-5 text-end">${OR.money(t.subtotal)}</dd>
+              ${t.discount ? `<dt class="col-7 fw-normal text-or">Cupón ${t.coupon}</dt><dd class="col-5 text-end text-or">−${OR.money(t.discount)}</dd>` : ''}
+              <dt class="col-7 fw-normal text-muted-or">IVA (16%)</dt><dd class="col-5 text-end">${OR.money(t.tax)}</dd>
+              <dt class="col-7 fw-normal text-muted-or">Envío</dt><dd class="col-5 text-end text-muted-or">Se calcula después</dd>
+            </dl>
+            <hr class="border-or">
+            <div class="d-flex justify-content-between mb-4"><span>Total estimado</span><span class="price">${OR.money(t.value + t.tax)}</span></div>
+            <a href="checkout.html" class="btn btn-or w-100 btn-lg" id="checkout">Proceder al pago</a>
+            <a href="tienda.html" class="btn btn-link link-or w-100 mt-2 small">Seguir comprando</a>
+          </div>
+        </div>`;
+
+      root.querySelectorAll('.qty').forEach(b => b.addEventListener('click', () => {
+        const l = lines[+b.dataset.i], d = +b.dataset.d;
+        const item = OR.toGA4Item(l.album, { variant: l.variant, quantity: 1 });
+        OR.track(d > 0 ? 'add_to_cart' : 'remove_from_cart', { currency: OR.CURRENCY, value: item.price, items: [item] });
+        OR.cart.setQty(l.id, l.variant, l.qty + d);
+        render();
+      }));
+      root.querySelectorAll('.remove').forEach(b => b.addEventListener('click', () => {
+        const l = lines[+b.dataset.i];
+        const item = OR.toGA4Item(l.album, { variant: l.variant, quantity: l.qty });
+        OR.track('remove_from_cart', { currency: OR.CURRENCY, value: +(item.price * l.qty).toFixed(2), items: [item] });
+        OR.cart.remove(l.id, l.variant);
+        render();
+      }));
+      document.getElementById('coupon-form').addEventListener('submit', e => {
+        e.preventDefault();
+        const code = document.getElementById('coupon').value.trim().toUpperCase();
+        const ok = OR.cart.setCoupon(code);
+        OR.track('apply_coupon', { coupon: code || '(vacío)', success: ok ? 'si' : 'no' });
+        OR.toast(ok ? `Cupón <strong>${OR.esc(code)}</strong> aplicado.` : 'Cupón no válido.');
+        render();
+      });
+      document.getElementById('checkout').addEventListener('click', () => {
+        const t = OR.cart.totals();
+        const p = { currency: OR.CURRENCY, value: t.value, items: OR.cart.ga4Items() };
+        if (t.coupon) p.coupon = t.coupon;
+        OR.track('begin_checkout', p);
+      });
+    }
+
+    render();
+    const t0 = OR.cart.totals();
+    if (OR.cart.count()) OR.track('view_cart', { currency: OR.CURRENCY, value: t0.value, items: OR.cart.ga4Items() });
+  </script>
+</body>
+</html>

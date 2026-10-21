@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Opeth Rules · Historia</title>
+  <meta name="description" content="La historia de Opeth, de Estocolmo 1990 a The Last Will and Testament.">
+  <script src="js/analytics.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body data-page="historia">
+  <div id="site-nav"></div>
+
+  <main>
+    <header class="page-header">
+      <div class="container">
+        <p class="eyebrow mb-2">Historia</p>
+        <h1 class="display-5 mb-3">De Estocolmo al infinito</h1>
+        <p class="text-muted-or col-lg-8 mb-0">El nombre viene de <em>Opet</em>, la "ciudad de la luna" de la novela <em>The Sunbird</em> de Wilbur Smith. Esta es la historia de una banda que nunca quiso quedarse quieta.</p>
+      </div>
+    </header>
+
+    <section class="container py-5">
+      <div class="row">
+        <div class="col-lg-9">
+          <div class="timeline" id="timeline"></div>
+        </div>
+        <aside class="col-lg-3 d-none d-lg-block">
+          <div class="card-or p-4 sticky-top" style="top: 6rem;">
+            <h2 class="h6 footer-title mb-3">Saltar a</h2>
+            <ul class="list-unstyled small mb-4" id="toc"></ul>
+            <a href="tienda.html" class="btn btn-or w-100" data-event="cta_click" data-param-cta-name="historia_sidebar_tienda" data-param-cta-location="sidebar">
+              <i class="bi bi-vinyl me-2"></i>Ir a la tienda
+            </a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="container py-5">
+      <div class="divider-rune"><i class="bi bi-people"></i></div>
+      <h2 class="text-center mb-2">Formación actual</h2>
+      <p class="text-center text-muted-or mb-5">Mikael Åkerfeldt es el único miembro que ha estado en todos los álbumes.</p>
+      <div class="row g-4 justify-content-center" id="members"></div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const eras = [
+      { id: 'era-origenes', years: '1990 – 1994', title: 'Los orígenes', album: null,
+        summary: 'David Isberg funda Opeth en Estocolmo. Poco después entra un joven Mikael Åkerfeldt, y la formación original se desintegra casi de inmediato.',
+        more: 'Isberg deja la banda en 1992 y Åkerfeldt asume la voz y la dirección creativa, con Peter Lindgren en la guitarra. Pasan años ensayando y escribiendo canciones largas, hasta que firman con Candlelight Records.' },
+      { id: 'era-orchid', years: '1995 – 1996', title: 'Orchid y Morningrise', album: 'morningrise',
+        summary: 'Dos discos grabados con Dan Swanö en los estudios Unisound. Folk sueco, guitarras acústicas y death metal en canciones de más de diez minutos.',
+        more: 'Desde el principio tuvieron una idea clara: el contraste. Pasajes delicados y brutalidad conviven dentro de una misma pieza. Morningrise incluye "Black Rose Immortal", que dura unos veinte minutos.' },
+      { id: 'era-still-life', years: '1997 – 1999', title: 'Nueva sangre: My Arms, Your Hearse y Still Life', album: 'still-life',
+        summary: 'El uruguayo Martín Méndez (bajo) y Martin Lopez (batería) se unen a la banda. Llegan los álbumes conceptuales.',
+        more: 'My Arms, Your Hearse cuenta la historia de un fantasma. Still Life, ya con Peaceville, narra un regreso a casa que termina en tragedia. Méndez sigue en la banda hasta hoy.' },
+      { id: 'era-blackwater', years: '2001', title: 'Blackwater Park', album: 'blackwater-park',
+        summary: 'Steven Wilson, de Porcupine Tree, produce el disco que los vuelve referencia mundial del metal progresivo.',
+        more: 'La alianza con Wilson añadió capas y texturas a la producción. "The Drapery Falls" y la canción que da título al disco se vuelven clásicos de sus conciertos.' },
+      { id: 'era-deliverance', years: '2002 – 2003', title: 'Deliverance y Damnation', album: 'damnation',
+        summary: 'Dos caras de una misma moneda, grabadas en la misma sesión: una brutal y otra completamente suave.',
+        more: 'Damnation no tiene guturales: es mellotron, voces limpias y tristeza otoñal. Fue la primera señal clara del camino que la banda tomaría años después.' },
+      { id: 'era-ghost', years: '2005 – 2008', title: 'Ghost Reveries y Watershed', album: 'ghost-reveries',
+        summary: 'Firman con Roadrunner, y Per Wiberg se une en los teclados. Son años de grandes cambios de formación.',
+        more: 'Martin Lopez se va en 2006 y llega Martin Axenrot. En 2007, Peter Lindgren cede su lugar a Fredrik Åkesson. Watershed (2008) cierra la era clásica.' },
+      { id: 'era-heritage', years: '2011 – 2019', title: 'El giro progresivo', album: 'heritage',
+        summary: 'Con Heritage desaparecen los guturales y llega el rock progresivo setentero. Joakim Svalberg toma los teclados.',
+        more: 'Después vinieron Pale Communion, Sorceress e In Cauda Venenum, este último en versiones en sueco y en inglés. Muchos fans de la vieja escuela se resistieron al cambio, pero la banda ganó un público nuevo.' },
+      { id: 'era-last-will', years: '2022 – hoy', title: 'The Last Will and Testament', album: 'the-last-will-and-testament',
+        summary: 'Waltteri Väyrynen llega a la batería y, en 2024, un álbum conceptual trae de vuelta las voces guturales.',
+        more: 'Una historia de herencias, secretos familiares y un testamento leído en voz alta. Ian Anderson, de Jethro Tull, participa como invitado.' }
+    ];
+
+    document.getElementById('timeline').innerHTML = eras.map(e => {
+      const a = e.album && OR.findAlbum(e.album);
+      return `
+      <article class="tl-item" id="${e.id}">
+        <div class="card-or p-4">
+          <div class="tl-year mb-1">${e.years}</div>
+          <h2 class="h4">${e.title}</h2>
+          <p class="text-muted-or mb-3">${e.summary}</p>
+          <div class="collapse" id="more-${e.id}" data-era="${e.id}">
+            <p class="mb-3">${e.more}</p>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-sm btn-outline-or" type="button" data-bs-toggle="collapse" data-bs-target="#more-${e.id}" aria-expanded="false" aria-controls="more-${e.id}">
+              <i class="bi bi-plus-lg me-1"></i>Conocer más
+            </button>
+            ${a ? `<a href="album.html?id=${a.id}" class="btn btn-sm btn-ghost-or" data-event="cta_click" data-param-cta-name="historia_ver_album" data-param-cta-location="${e.id}" data-param-item-id="${a.id}">
+              <i class="bi bi-vinyl me-1"></i>Comprar ${OR.esc(a.title)}</a>` : ''}
+          </div>
+        </div>
+      </article>`;
+    }).join('');
+
+    document.getElementById('toc').innerHTML = eras.map(e =>
+      `<li class="mb-1"><a href="#${e.id}" class="link-or" data-event="select_content" data-param-content-type="indice_historia" data-param-content-id="${e.id}">${e.years}</a></li>`).join('');
+
+    // "Conocer más" -> select_content solo al abrir
+    document.querySelectorAll('.collapse[data-era]').forEach(c => {
+      c.addEventListener('show.bs.collapse', () => OR.track('select_content', { content_type: 'era', content_id: c.dataset.era }));
+    });
+
+    const members = [
+      ['MÅ', 'Mikael Åkerfeldt', 'Voz y guitarra', 'desde 1990'],
+      ['MM', 'Martín Méndez', 'Bajo', 'desde 1997'],
+      ['FÅ', 'Fredrik Åkesson', 'Guitarra', 'desde 2007'],
+      ['JS', 'Joakim Svalberg', 'Teclados', 'desde 2011'],
+      ['WV', 'Waltteri Väyrynen', 'Batería', 'desde 2022']
+    ];
+    document.getElementById('members').innerHTML = members.map(([ini, name, role, since]) => `
+      <div class="col-6 col-md-4 col-lg-2 member">
+        <div class="member-avatar">${ini}</div>
+        <div class="fw-semibold">${name}</div>
+        <div class="small text-muted-or">${role}</div>
+        <div class="small text-or">${since}</div>
+      </div>`).join('');
+  </script>
+</body>
+</html>

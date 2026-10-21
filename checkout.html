@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Opeth Rules · Checkout</title>
+  <meta name="description" content="Checkout simulado.">
+  <script src="js/analytics.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body data-page="carrito">
+  <div id="site-nav"></div>
+
+  <main class="container py-5">
+    <h1 class="display-6 mb-2">Checkout</h1>
+    <p class="text-muted-or small mb-4"><i class="bi bi-info-circle me-1"></i>Es una tienda de práctica: no escribas datos reales. No se cobra nada.</p>
+
+    <div class="d-flex gap-4 mb-4 flex-wrap" id="steps">
+      <div class="step active" data-step="1"><span class="step-badge me-2">1</span><span class="step-label">Envío</span></div>
+      <div class="step" data-step="2"><span class="step-badge me-2">2</span><span class="step-label">Pago</span></div>
+      <div class="step" data-step="3"><span class="step-badge me-2">3</span><span class="step-label">Confirmar</span></div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <!-- Paso 1 -->
+        <form class="card-or p-4 needs-validation" id="step-1" novalidate>
+          <h2 class="h5 mb-3">Dirección de envío</h2>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label small" for="name">Nombre</label><input class="form-control" id="name" required autocomplete="off"></div>
+            <div class="col-md-6"><label class="form-label small" for="city">Ciudad</label><input class="form-control" id="city" required autocomplete="off"></div>
+            <div class="col-md-8"><label class="form-label small" for="country">País</label>
+              <select class="form-select" id="country" required>
+                <option value="">Elige…</option><option>México</option><option>Argentina</option><option>Chile</option><option>Colombia</option><option>España</option><option>Estados Unidos</option><option>Suecia</option><option>Otro</option>
+              </select></div>
+            <div class="col-md-4"><label class="form-label small" for="zip">C.P.</label><input class="form-control" id="zip" required autocomplete="off"></div>
+          </div>
+          <h3 class="h6 footer-title mt-4 mb-3">Método de envío</h3>
+          <div class="row g-2">
+            <div class="col-md-6">
+              <input type="radio" class="btn-check" name="ship" id="ship-std" value="Estándar" data-cost="5" checked>
+              <label class="card-or p-3 d-block option-card" for="ship-std"><strong>Estándar</strong> · $5.00<br><span class="small text-muted-or">De 7 a 12 días</span></label>
+            </div>
+            <div class="col-md-6">
+              <input type="radio" class="btn-check" name="ship" id="ship-exp" value="Express" data-cost="15">
+              <label class="card-or p-3 d-block option-card" for="ship-exp"><strong>Express</strong> · $15.00<br><span class="small text-muted-or">De 2 a 4 días</span></label>
+            </div>
+          </div>
+          <button class="btn btn-or mt-4" type="submit">Continuar al pago</button>
+        </form>
+
+        <!-- Paso 2 -->
+        <form class="card-or p-4 d-none" id="step-2">
+          <h2 class="h5 mb-3">Método de pago (simulado)</h2>
+          <div class="row g-2">
+            <div class="col-md-4">
+              <input type="radio" class="btn-check" name="pay" id="pay-card" value="Tarjeta" checked>
+              <label class="card-or p-3 d-block option-card text-center" for="pay-card"><i class="bi bi-credit-card fs-3 d-block mb-1"></i>Tarjeta</label>
+            </div>
+            <div class="col-md-4">
+              <input type="radio" class="btn-check" name="pay" id="pay-paypal" value="PayPal">
+              <label class="card-or p-3 d-block option-card text-center" for="pay-paypal"><i class="bi bi-paypal fs-3 d-block mb-1"></i>PayPal</label>
+            </div>
+            <div class="col-md-4">
+              <input type="radio" class="btn-check" name="pay" id="pay-bank" value="Transferencia">
+              <label class="card-or p-3 d-block option-card text-center" for="pay-bank"><i class="bi bi-bank fs-3 d-block mb-1"></i>Transferencia</label>
+            </div>
+          </div>
+          <p class="small text-muted-or mt-3 mb-0">No pedimos datos de tarjeta: solo eliges el método para practicar el evento <code>add_payment_info</code>.</p>
+          <div class="d-flex gap-2 mt-4">
+            <button class="btn btn-ghost-or" type="button" data-back="1">Atrás</button>
+            <button class="btn btn-or" type="submit">Revisar pedido</button>
+          </div>
+        </form>
+
+        <!-- Paso 3 -->
+        <div class="card-or p-4 d-none" id="step-3">
+          <h2 class="h5 mb-3">Confirma tu pedido</h2>
+          <div id="review" class="small mb-4"></div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-ghost-or" type="button" data-back="2">Atrás</button>
+            <button class="btn btn-or btn-lg" id="place-order"><i class="bi bi-lock me-2"></i>Pagar ahora</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card-or p-4" id="summary"></div>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    if (!OR.cart.count()) location.replace('carrito.html');
+
+    const ship = () => document.querySelector('input[name=ship]:checked');
+    const pay = () => document.querySelector('input[name=pay]:checked').value;
+    const totals = () => OR.cart.totals(+ship().dataset.cost);
+
+    function baseParams(extra) {
+      const t = totals();
+      const p = { currency: OR.CURRENCY, value: t.value, items: OR.cart.ga4Items(), ...extra };
+      if (t.coupon) p.coupon = t.coupon;
+      return p;
+    }
+
+    function renderSummary() {
+      const t = totals();
+      document.getElementById('summary').innerHTML = `
+        <h2 class="h5 mb-3">Tu pedido</h2>
+        ${OR.cart.detailed().map(l => `<div class="d-flex justify-content-between small mb-2"><span>${l.qty}× ${OR.esc(l.album.title)} <span class="text-muted-or">(${l.variant})</span></span><span>${OR.money(l.total)}</span></div>`).join('')}
+        <hr class="border-or">
+        <dl class="row small mb-0">
+          <dt class="col-7 fw-normal text-muted-or">Subtotal</dt><dd class="col-5 text-end">${OR.money(t.subtotal)}</dd>
+          ${t.discount ? `<dt class="col-7 fw-normal text-or">Cupón ${t.coupon}</dt><dd class="col-5 text-end text-or">−${OR.money(t.discount)}</dd>` : ''}
+          <dt class="col-7 fw-normal text-muted-or">IVA</dt><dd class="col-5 text-end">${OR.money(t.tax)}</dd>
+          <dt class="col-7 fw-normal text-muted-or">Envío</dt><dd class="col-5 text-end">${OR.money(t.shipping)}</dd>
+        </dl>
+        <hr class="border-or">
+        <div class="d-flex justify-content-between"><span>Total</span><span class="price">${OR.money(t.total)}</span></div>`;
+    }
+
+    function goto(n) {
+      [1, 2, 3].forEach(i => document.getElementById('step-' + i).classList.toggle('d-none', i !== n));
+      document.querySelectorAll('.step').forEach(s => {
+        const i = +s.dataset.step;
+        s.classList.toggle('active', i === n);
+        s.classList.toggle('done', i < n);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('input[name=ship]').forEach(r => r.addEventListener('change', renderSummary));
+    document.querySelectorAll('[data-back]').forEach(b => b.addEventListener('click', () => goto(+b.dataset.back)));
+
+    document.getElementById('step-1').addEventListener('submit', e => {
+      e.preventDefault();
+      const f = e.target;
+      if (!f.checkValidity()) { f.classList.add('was-validated'); return; }
+      OR.track('add_shipping_info', baseParams({ shipping_tier: ship().value }));
+      goto(2);
+    });
+
+    document.getElementById('step-2').addEventListener('submit', e => {
+      e.preventDefault();
+      OR.track('add_payment_info', baseParams({ payment_type: pay() }));
+      const t = totals();
+      document.getElementById('review').innerHTML = `
+        <p class="mb-1"><span class="text-muted-or">Enviar a:</span> ${OR.esc(document.getElementById('city').value)}, ${OR.esc(document.getElementById('country').value)}</p>
+        <p class="mb-1"><span class="text-muted-or">Envío:</span> ${ship().value}</p>
+        <p class="mb-1"><span class="text-muted-or">Pago:</span> ${pay()}</p>
+        <p class="mb-0"><span class="text-muted-or">Total:</span> <span class="text-or fw-semibold">${OR.money(t.total)}</span></p>`;
+      goto(3);
+    });
+
+    document.getElementById('place-order').addEventListener('click', e => {
+      e.currentTarget.disabled = true;
+      e.currentTarget.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Procesando…';
+      const t = totals();
+      const order = {
+        transaction_id: 'OR-' + Date.now().toString(36).toUpperCase(),
+        currency: OR.CURRENCY, value: t.value, tax: t.tax, shipping: t.shipping, total: t.total,
+        coupon: t.coupon, shipping_tier: ship().value, payment_type: pay(),
+        items: OR.cart.ga4Items(), tracked: false
+      };
+      // El evento purchase se envía en gracias.html (patrón típico de "thank you page")
+      OR.storage.set('sessionStorage', 'or_last_order', JSON.stringify(order));
+      OR.cart.clear();
+      setTimeout(() => location.href = 'gracias.html', 900);
+    });
+
+    renderSummary();
+  </script>
+</body>
+</html>

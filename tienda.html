@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Opeth Rules · Tienda</title>
+  <meta name="description" content="Discografía completa de Opeth en CD y vinilo (tienda simulada).">
+  <script src="js/analytics.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body data-page="tienda">
+  <div id="site-nav"></div>
+
+  <main>
+    <header class="page-header">
+      <div class="container">
+        <p class="eyebrow mb-2">Tienda</p>
+        <h1 class="display-5 mb-3">Discografía</h1>
+        <p class="text-muted-or mb-0">Catorce álbumes de estudio, en CD o en vinilo de 180 g. Envíos simulados a todo el mundo.</p>
+      </div>
+    </header>
+
+    <section class="container py-5">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div class="btn-group flex-wrap" role="group" aria-label="Filtrar por era">
+          <input type="radio" class="btn-check" name="era" id="f-all" value="all" checked>
+          <label class="btn btn-ghost-or" for="f-all">Todos</label>
+          <input type="radio" class="btn-check" name="era" id="f-metal" value="metal">
+          <label class="btn btn-ghost-or" for="f-metal">Death metal prog</label>
+          <input type="radio" class="btn-check" name="era" id="f-prog" value="prog">
+          <label class="btn btn-ghost-or" for="f-prog">Rock prog</label>
+        </div>
+        <select class="form-select w-auto" id="sort" aria-label="Ordenar">
+          <option value="year-asc">Más antiguos primero</option>
+          <option value="year-desc">Más recientes primero</option>
+          <option value="price-asc">Precio: menor a mayor</option>
+          <option value="price-desc">Precio: mayor a menor</option>
+        </select>
+      </div>
+      <div class="row g-4" id="grid"></div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const grid = document.getElementById('grid');
+    let current = [];
+
+    function listInfo(era) {
+      return era === 'all' ? { id: 'tienda_todos', name: 'Tienda - Todos' }
+                           : { id: 'tienda_' + era, name: 'Tienda - ' + OR.ERA_LABEL[era] };
+    }
+
+    function render(era, sort, fireEvent) {
+      const [key, dir] = sort.split('-');
+      current = OR.albums.filter(a => era === 'all' || a.era === era)
+        .sort((a, b) => (key === 'year' ? a.year - b.year : a.price - b.price) * (dir === 'asc' ? 1 : -1));
+      const list = listInfo(era);
+
+      grid.innerHTML = current.map((a, i) => `
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="card-or card-lift p-3 h-100 d-flex flex-column">
+            <a href="album.html?id=${a.id}" class="select-item" data-index="${i}">${OR.coverHTML(a)}</a>
+            <div class="mt-3 flex-grow-1">
+              <span class="era-pill">${a.era === 'metal' ? 'Death metal prog' : 'Rock prog'}</span>
+              <div class="fw-semibold mt-2">${OR.esc(a.title)}</div>
+              <div class="small text-muted-or">${a.year} · ${OR.esc(a.label)}</div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <span class="price">${OR.money(a.price)}</span>
+              <div class="d-flex gap-1">
+                <a href="album.html?id=${a.id}" class="btn btn-sm btn-ghost-or select-item" data-index="${i}">Ver</a>
+                <button class="btn btn-sm btn-or add-btn" data-index="${i}" aria-label="Agregar ${OR.esc(a.title)} al carrito"><i class="bi bi-bag-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>`).join('');
+
+      if (fireEvent) {
+        OR.track('view_item_list', { item_list_id: list.id, item_list_name: list.name,
+          items: current.map((a, i) => OR.toGA4Item(a, { index: i, listId: list.id, listName: list.name })) });
+      }
+
+      grid.querySelectorAll('.select-item').forEach(el => el.addEventListener('click', () => {
+        const i = +el.dataset.index;
+        OR.track('select_item', { item_list_id: list.id, item_list_name: list.name,
+          items: [OR.toGA4Item(current[i], { index: i, listId: list.id, listName: list.name })] });
+      }));
+      grid.querySelectorAll('.add-btn').forEach(b => b.addEventListener('click', () =>
+        OR.addToCart(current[+b.dataset.index], 'CD', 1, list)));
+    }
+
+    const state = () => [document.querySelector('input[name=era]:checked').value, document.getElementById('sort').value];
+
+    document.querySelectorAll('input[name=era]').forEach(r => r.addEventListener('change', () => {
+      const [era, sort] = state();
+      OR.track('filter_items', { filter_type: 'era', filter_value: era });
+      render(era, sort, true);
+    }));
+    document.getElementById('sort').addEventListener('change', () => {
+      const [era, sort] = state();
+      OR.track('sort_items', { sort_by: sort });
+      render(era, sort, false);
+    });
+
+    render('all', 'year-asc', true);
+  </script>
+</body>
+</html>
