@@ -7,7 +7,7 @@
    3. Agrega ?debug=1 a cualquier URL para ver los eventos en
       GA4 > Admin > DebugView (se mantiene durante la sesión).
    ========================================================= */
-const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
+const GA_MEASUREMENT_ID = 'G-WWWFZKMZ93';
 
 const GA_ENABLED = /^G-[A-Z0-9]+$/.test(GA_MEASUREMENT_ID) && GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX';
 
