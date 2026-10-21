@@ -79,10 +79,9 @@ h1, h2, h3, h4, h5, .brand, .display-font {
   min-height: 78vh;
   display: flex; align-items: center;
   background:
-    radial-gradient(ellipse at 70% 20%, rgba(201,164,106,.12), transparent 55%),
-    radial-gradient(ellipse at 10% 90%, rgba(92,107,78,.22), transparent 50%),
-    linear-gradient(180deg, rgba(14,14,12,.55), var(--or-bg)),
-    url('../assets/img/hero.jpg') center/cover no-repeat,
+    linear-gradient(90deg, rgba(14,14,12,.94) 0%, rgba(14,14,12,.78) 35%, rgba(14,14,12,.35) 70%, rgba(14,14,12,.2) 100%),
+    linear-gradient(180deg, rgba(14,14,12,.35), rgba(14,14,12,.1) 40%, var(--or-bg)),
+    url('../assets/img/hero.jpg') center 20%/cover no-repeat,
     #11110f;
   border-bottom: 1px solid var(--or-border);
   overflow: hidden;
@@ -200,3 +199,7 @@ a:has(> .cover) { text-decoration: none; }
 .ga-entry.ga-auto code { color: #8fb3c9; }
 .ga-entry.ga-consent code { color: #9fc98f; }
 .ga-entry pre { margin: .35rem 0 0; font-size: .72rem; color: var(--or-muted); white-space: pre-wrap; max-height: 220px; overflow: auto; }
+
+/* ----- Foto de grupo ----- */
+.band-photo { max-width: 960px; margin-left: auto; margin-right: auto; border-radius: .75rem; overflow: hidden; border: 1px solid var(--or-border); box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+.band-photo img { width: 100%; display: block; filter: saturate(.85) contrast(1.05); }

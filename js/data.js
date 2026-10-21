@@ -70,15 +70,15 @@ OR.ERA_LABEL = { metal: 'Era death metal progresivo', prog: 'Era rock progresivo
    (lo que va después de "watch?v=" en el enlace oficial).
    Sin ID, la tarjeta abre una búsqueda en YouTube (clic saliente). */
 OR.videos = [
-  { id: 'v-burden', song: 'Burden', album: 'watershed', youtubeId: '' },
-  { id: 'v-windowpane', song: 'Windowpane', album: 'damnation', youtubeId: '' },
-  { id: 'v-grand-conjuration', song: 'The Grand Conjuration', album: 'ghost-reveries', youtubeId: '' },
-  { id: 'v-porcelain-heart', song: 'Porcelain Heart', album: 'watershed', youtubeId: '' },
-  { id: 'v-devils-orchard', song: 'The Devil\'s Orchard', album: 'heritage', youtubeId: '' },
-  { id: 'v-cusp-of-eternity', song: 'Cusp of Eternity', album: 'pale-communion', youtubeId: '' },
-  { id: 'v-sorceress', song: 'Sorceress', album: 'sorceress', youtubeId: '' },
-  { id: 'v-heart-in-hand', song: 'Heart in Hand', album: 'in-cauda-venenum', youtubeId: '' },
-  { id: 'v-section-3', song: '§3', album: 'the-last-will-and-testament', youtubeId: '' }
+  { id: 'v-godheads-lament', song: 'Godhead\x27s Lament', album: 'still-life', youtubeId: 'OY4oy4snMsg' },
+  { id: 'v-bleak', song: 'Bleak', album: 'blackwater-park', youtubeId: '5Zdg4Sbefg4' },
+  { id: 'v-deliverance', song: 'Deliverance', album: 'deliverance', youtubeId: 'rggQNCS8UjM' },
+  { id: 'v-hope-leaves', song: 'Hope Leaves', album: 'damnation', youtubeId: 'gPkfpVej5bc' },
+  { id: 'v-ghost-of-perdition', song: 'Ghost of Perdition', album: 'ghost-reveries', youtubeId: 'MDBykpSXsSE' },
+  { id: 'v-heir-apparent', song: 'Heir Apparent', album: 'watershed', youtubeId: 'g1wW6yPDqwY' },
+  { id: 'v-eternal-rains', song: 'Eternal Rains Will Come', album: 'pale-communion', youtubeId: 'CoW3Sywb5xQ' },
+  { id: 'v-sorceress', song: 'Sorceress', album: 'sorceress', youtubeId: 'LhqijfqecvA' },
+  { id: 'v-section-3', song: '§3', album: 'the-last-will-and-testament', youtubeId: 'Xx3sVo9jPX4' }
 ];
 
 OR.findAlbum = id => OR.albums.find(a => a.id === id);

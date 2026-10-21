@@ -11,4 +11,7 @@ Si un archivo falta, se muestra la portada generada con CSS.
 Tamaño ideal: cuadradas, ~1000×1000, menos de 300 KB.
 
 ## Opcionales
-- `hero.jpg`: fondo de la portada del inicio (horizontal, ~1920×1080, oscuro)
+- `hero.jpg`: fondo de la portada del inicio
+- `integrantes.jpg`: foto de grupo en Historia → Formación actual
+- `favicon-32.png`, `favicon.png` (192), `apple-touch-icon.png` (180): íconos de pestaña
+- `og.jpg`: vista previa al compartir en redes (ideal 1200×630)
