@@ -7,7 +7,7 @@ OR.coverHTML = function (album, extraClass) {
   return `<div class="cover ${extraClass || ''}" style="--c1:${album.colors[0]};--c2:${album.colors[1]}">
     <span class="cover-title">${OR.esc(album.title)}</span>
     <span class="cover-year">${album.year}</span>
-    <img src="assets/img/covers/${album.id}.jpg" alt="Portada de ${OR.esc(album.title)}" loading="lazy" onerror="this.remove()">
+    <img src="assets/img/covers/${encodeURIComponent(album.cover || album.id + '.jpg')}" alt="Portada de ${OR.esc(album.title)}" loading="lazy" onerror="this.remove()">
   </div>`;
 };
 

@@ -1,14 +1,14 @@
-# Imágenes opcionales
+# Imágenes
 
-El sitio funciona sin imágenes (usa portadas generadas con CSS).
-Si agregas archivos con estos nombres exactos, se usan automáticamente:
+## Portadas (`covers/`)
+Cada álbum indica su archivo en `js/data.js` (campo `cover`), por ejemplo:
+`{ id: 'blackwater-park', cover: 'BW park.jpg', ... }`
 
+Para cambiar una portada, reemplaza el archivo con el mismo nombre o edita `cover`.
+En GitHub Pages los nombres distinguen mayúsculas: `Orchid.jpg` ≠ `orchid.jpg`.
+Si un archivo falta, se muestra la portada generada con CSS.
+
+Tamaño ideal: cuadradas, ~1000×1000, menos de 300 KB.
+
+## Opcionales
 - `hero.jpg`: fondo de la portada del inicio (horizontal, ~1920×1080, oscuro)
-- `covers/<id>.jpg`: portada de cada álbum (cuadrada, ~600×600)
-
-IDs de los álbumes:
-orchid, morningrise, my-arms-your-hearse, still-life, blackwater-park,
-deliverance, damnation, ghost-reveries, watershed, heritage,
-pale-communion, sorceress, in-cauda-venenum, the-last-will-and-testament
-
-Ejemplo: `assets/img/covers/blackwater-park.jpg`

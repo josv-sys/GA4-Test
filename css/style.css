@@ -173,7 +173,8 @@ a:has(> .cover) { text-decoration: none; }
 /* ----- Footer ----- */
 .footer-or { background: #0a0a09; border-top: 1px solid var(--or-border); }
 .footer-or a { color: var(--or-muted); text-decoration: none; }
-.footer-or a:hover { color: var(--or-accent); }
+.footer-or a:hover, .footer-or .btn-link:hover { color: var(--or-accent); }
+.footer-or .btn-link { font-size: inherit; color: var(--or-muted); text-decoration: none; vertical-align: baseline; }
 .footer-title { font-family: 'Cinzel', serif; color: var(--or-text); letter-spacing: .1em; }
 .footer-or .brand { color: var(--or-accent); }
 
